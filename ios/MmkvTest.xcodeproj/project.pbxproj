@@ -12,8 +12,6 @@
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		D692F27108AFFD321027FE0F /* libPods-MmkvTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC584453FCB33A905C10C747 /* libPods-MmkvTest.a */; };
-		D7941C962EBB5D7A0010A9B6 /* MemoryStatsModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7941C952EBB5D7A0010A9B6 /* MemoryStatsModule.swift */; };
-		D7941C972EBB5D7A0010A9B6 /* MemoryStatsModule.m in Sources */ = {isa = PBXBuildFile; fileRef = D7941C942EBB5D7A0010A9B6 /* MemoryStatsModule.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,9 +23,6 @@
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = MmkvTest/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MmkvTest/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		95C5D9CE5641785C98B33E7D /* Pods-MmkvTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MmkvTest.debug.xcconfig"; path = "Target Support Files/Pods-MmkvTest/Pods-MmkvTest.debug.xcconfig"; sourceTree = "<group>"; };
-		D7941C942EBB5D7A0010A9B6 /* MemoryStatsModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MemoryStatsModule.m; sourceTree = "<group>"; };
-		D7941C952EBB5D7A0010A9B6 /* MemoryStatsModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryStatsModule.swift; sourceTree = "<group>"; };
-		D7941C982EBB5D7E0010A9B6 /* MmkvTest-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MmkvTest-Bridging-Header.h"; sourceTree = "<group>"; };
 		DC584453FCB33A905C10C747 /* libPods-MmkvTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MmkvTest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -51,10 +46,7 @@
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
-				D7941C942EBB5D7A0010A9B6 /* MemoryStatsModule.m */,
-				D7941C952EBB5D7A0010A9B6 /* MemoryStatsModule.swift */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
-				D7941C982EBB5D7E0010A9B6 /* MmkvTest-Bridging-Header.h */,
 			);
 			name = MmkvTest;
 			sourceTree = "<group>";
@@ -199,9 +191,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MmkvTest/Pods-MmkvTest-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MmkvTest/Pods-MmkvTest-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -216,9 +212,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MmkvTest/Pods-MmkvTest-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MmkvTest/Pods-MmkvTest-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -254,8 +254,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7941C962EBB5D7A0010A9B6 /* MemoryStatsModule.swift in Sources */,
-				D7941C972EBB5D7A0010A9B6 /* MemoryStatsModule.m in Sources */,
 				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,7 +284,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = MmkvTest;
-				SWIFT_OBJC_BRIDGING_HEADER = "MmkvTest-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -315,7 +313,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = MmkvTest;
-				SWIFT_OBJC_BRIDGING_HEADER = "MmkvTest-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
