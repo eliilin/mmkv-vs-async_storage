@@ -3,9 +3,11 @@
 This is a [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli), that compares the performance of [React Native MMKV](https://github.com/mrousavy/react-native-mmkv) and [AsyncStorage](https://github.com/react-native-async-storage/async-storage) for read/write operations.
 
 <div align="center">
-  <img src="assets/write-test-results.png" alt="Write Test Results" width="45%" />
-  <img src="assets/read-test-results.png" alt="Read Test Results" width="45%" />
+  <img src="assets/write-test-results.jpeg" alt="Write Test Results" width="45%" />
+  <img src="assets/read-test-results.jpeg" alt="Read Test Results" width="45%" />
 </div>
+
+> The screenshots above are based on read/write operations of 5k items.
 
 ## Performance Test Results (5000 items)
 
