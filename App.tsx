@@ -260,12 +260,16 @@ function AppContent({ isDarkMode }: { isDarkMode: boolean }) {
                   Write Speed:
                 </Text>
                 <Text style={[styles.metricValue, styles.betterColor]}>
-                  MMKV is{' '}
-                  {(
-                    writeResults.asyncStorage.writeTime /
-                    writeResults.mmkv.writeTime
-                  ).toFixed(2)}
-                  x faster
+                  {writeResults.mmkv.writeTime <
+                  writeResults.asyncStorage.writeTime
+                    ? `MMKV is ${(
+                        writeResults.asyncStorage.writeTime /
+                        writeResults.mmkv.writeTime
+                      ).toFixed(2)}x faster`
+                    : `AsyncStorage is ${(
+                        writeResults.mmkv.writeTime /
+                        writeResults.asyncStorage.writeTime
+                      ).toFixed(2)}x faster`}
                 </Text>
               </View>
             </View>
@@ -314,12 +318,15 @@ function AppContent({ isDarkMode }: { isDarkMode: boolean }) {
                   Read Speed:
                 </Text>
                 <Text style={[styles.metricValue, styles.betterColor]}>
-                  MMKV is{' '}
-                  {(
-                    readResults.asyncStorage.readTime /
-                    readResults.mmkv.readTime
-                  ).toFixed(2)}
-                  x faster
+                  {readResults.mmkv.readTime < readResults.asyncStorage.readTime
+                    ? `MMKV is ${(
+                        readResults.asyncStorage.readTime /
+                        readResults.mmkv.readTime
+                      ).toFixed(2)}x faster`
+                    : `AsyncStorage is ${(
+                        readResults.mmkv.readTime /
+                        readResults.asyncStorage.readTime
+                      ).toFixed(2)}x faster`}
                 </Text>
               </View>
             </View>
