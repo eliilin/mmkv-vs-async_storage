@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StatusBar,
   StyleSheet,
@@ -49,14 +49,16 @@ function AppContent({ isDarkMode }: { isDarkMode: boolean }) {
   const [readResults, setReadResults] = useState<ReadTestResults | null>(null);
   const [isRunning, setIsRunning] = useState(false);
   const [testType, setTestType] = useState<'write' | 'read' | null>(null);
-  const [selectedCount, setSelectedCount] = useState(1000);
+  const [selectedCount, setSelectedCount] = useState(5000);
 
   const runWriteTest = async () => {
     setIsRunning(true);
     setTestType('write');
     setWriteResults(null);
+    setReadResults(null);
 
     try {
+      await clearAllTestData();
       const results = await runWriteTests(selectedCount);
       setWriteResults(results);
     } catch (error) {
@@ -67,6 +69,13 @@ function AppContent({ isDarkMode }: { isDarkMode: boolean }) {
       setTestType(null);
     }
   };
+
+  useEffect(() => {
+    // Clear previous results when selected count changes
+    setWriteResults(null);
+    setReadResults(null);
+    clearAllTestData();
+  }, [selectedCount]);
 
   const runReadTest = async () => {
     // Check if data exists
@@ -96,36 +105,11 @@ function AppContent({ isDarkMode }: { isDarkMode: boolean }) {
     }
   };
 
-  const clearTests = async () => {
-    Alert.alert(
-      'Clear Test Data',
-      'Are you sure you want to delete all test data?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Clear',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await clearAllTestData();
-              setWriteResults(null);
-              setReadResults(null);
-              Alert.alert('Success', 'All test data has been cleared');
-            } catch (error) {
-              console.error('Clear error:', error);
-              Alert.alert('Error', 'Failed to clear test data');
-            }
-          },
-        },
-      ],
-    );
-  };
-
   const testPresets = [
-    { label: '100', count: 100 },
-    { label: '500', count: 500 },
-    { label: '1K', count: 1000 },
     { label: '5K', count: 5000 },
+    { label: '25K', count: 25000 },
+    { label: '50K', count: 50000 },
+    { label: '150K', count: 150000 },
   ];
 
   const backgroundColor = isDarkMode ? '#000' : '#fff';
@@ -198,14 +182,6 @@ function AppContent({ isDarkMode }: { isDarkMode: boolean }) {
             disabled={isRunning}
           >
             <Text style={styles.actionButtonText}>Test Read</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.actionButton, styles.clearButton]}
-            onPress={clearTests}
-            disabled={isRunning}
-          >
-            <Text style={styles.actionButtonText}>Clear Tests</Text>
           </TouchableOpacity>
         </View>
 
