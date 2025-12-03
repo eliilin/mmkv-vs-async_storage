@@ -1,0 +1,28 @@
+{
+  "name": "react-native-data-storage",
+  "version": "0.0.1",
+  "description": "A React Native module for data storage using SwiftData.",
+  "react-native": "js/index",
+  "source": "js/index",
+  "files": [],
+  "keywords": [
+    "react-native",
+    "ios",
+    "android"
+  ],
+  "author": "Ilya Ilin",
+  "license": "MIT",
+  "devDependencies": {},
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "codegenConfig": {
+    "name": "DataStorage",
+    "type": "modules",
+    "jsSrcsDir": "js",
+    "android": {
+      "javaPackageName": "com.rn.datastorage"
+    }
+  }
+}
