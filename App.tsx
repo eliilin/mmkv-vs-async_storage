@@ -51,6 +51,14 @@ function AppContent({ isDarkMode }: { isDarkMode: boolean }) {
   const [testType, setTestType] = useState<'write' | 'read' | null>(null);
   const [selectedCount, setSelectedCount] = useState(5000);
 
+  useEffect(() => {
+    console.log('Read Results Updated:', readResults);
+  }, [readResults]);
+
+  useEffect(() => {
+    console.log('Write Results Updated:', writeResults);
+  }, [writeResults]);
+
   const runWriteTest = async () => {
     setIsRunning(true);
     setTestType('write');
@@ -205,10 +213,18 @@ function AppContent({ isDarkMode }: { isDarkMode: boolean }) {
               <Text style={[styles.cardTitle, styles.mmkvColor]}>MMKV</Text>
               <View style={styles.metric}>
                 <Text style={[styles.metricLabel, { color: textColor }]}>
-                  Write Time:
+                  Cold Write Time:
                 </Text>
                 <Text style={[styles.metricValue, { color: textColor }]}>
                   {writeResults.mmkv.writeTime}ms
+                </Text>
+              </View>
+              <View style={styles.metric}>
+                <Text style={[styles.metricLabel, { color: textColor }]}>
+                  Write (reusable instance):
+                </Text>
+                <Text style={[styles.metricValue, { color: textColor }]}>
+                  {writeResults.mmkv.reusableWriteTime}ms
                 </Text>
               </View>
             </View>
@@ -318,10 +334,18 @@ function AppContent({ isDarkMode }: { isDarkMode: boolean }) {
               <Text style={[styles.cardTitle, styles.mmkvColor]}>MMKV</Text>
               <View style={styles.metric}>
                 <Text style={[styles.metricLabel, { color: textColor }]}>
-                  Read Time:
+                  Cold Read Time:
                 </Text>
                 <Text style={[styles.metricValue, { color: textColor }]}>
                   {readResults.mmkv.readTime}ms
+                </Text>
+              </View>
+              <View style={styles.metric}>
+                <Text style={[styles.metricLabel, { color: textColor }]}>
+                  Read (reusable instance):
+                </Text>
+                <Text style={[styles.metricValue, { color: textColor }]}>
+                  {readResults.mmkv.reusableReadTime}ms
                 </Text>
               </View>
             </View>
