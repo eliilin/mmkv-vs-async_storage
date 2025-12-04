@@ -1,14 +1,26 @@
 {
   "name": "react-native-data-storage",
   "version": "0.0.1",
-  "description": "A React Native module for data storage using SwiftData.",
+  "description": "A high-performance React Native storage module using SwiftData for iOS. Provides key-value storage without string serialization.",
   "react-native": "js/index",
   "source": "js/index",
-  "files": [],
+  "main": "js/index.ts",
+  "types": "js/index.ts",
+  "files": [
+    "js/",
+    "ios/",
+    "DataStorage.podspec",
+    "README.md"
+  ],
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "storage",
+    "swiftdata",
+    "turbomodule",
+    "asyncstorage",
+    "persistence",
+    "key-value"
   ],
   "author": "Ilya Ilin",
   "license": "MIT",
@@ -17,12 +29,12 @@
     "react": "*",
     "react-native": "*"
   },
+  "engines": {
+    "node": ">=16"
+  },
   "codegenConfig": {
     "name": "DataStorage",
     "type": "modules",
-    "jsSrcsDir": "js",
-    "android": {
-      "javaPackageName": "com.rn.datastorage"
-    }
+    "jsSrcsDir": "js"
   }
 }

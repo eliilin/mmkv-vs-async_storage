@@ -14,7 +14,9 @@
     "@react-native/new-app-screen": "0.82.1",
     "react": "19.1.1",
     "react-native": "0.82.1",
+    "react-native-data-storage": "file:./react-native-data-storage",
     "react-native-mmkv": "^4.0.0",
+    "react-native-nitro-data-storage": "file:./react-native-nitro-data-storage",
     "react-native-nitro-modules": "^0.31.4",
     "react-native-safe-area-context": "^5.5.2"
   },

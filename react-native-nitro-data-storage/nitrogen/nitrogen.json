@@ -1,0 +1,7 @@
+{
+  "name": "NitroDataStorage",
+  "cxxNamespace": "margelo::nitro::datastorage",
+  "autolinking": {
+    "ios": ["NitroDataStorage"]
+  }
+}

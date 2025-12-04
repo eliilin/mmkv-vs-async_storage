@@ -1,0 +1,18 @@
+# Development files
+node_modules/
+EXAMPLES.ts
+INTEGRATION.md
+.gitignore
+
+# Build artifacts
+*.tsbuildinfo
+ios/build/
+ios/Pods/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store

@@ -130,7 +130,7 @@ function AppContent({ isDarkMode }: { isDarkMode: boolean }) {
           Storage Performance Test
         </Text>
         <Text style={[styles.subtitle, { color: textColor }]}>
-          MMKV vs AsyncStorage
+          MMKV vs AsyncStorage vs DataStorage
         </Text>
 
         {/* Item Count Selector */}
@@ -228,6 +228,34 @@ function AppContent({ isDarkMode }: { isDarkMode: boolean }) {
             </View>
 
             <View style={[styles.card, { backgroundColor: cardBg }]}>
+              <Text style={[styles.cardTitle, styles.dataStorageColor]}>
+                DataStorage
+              </Text>
+              <View style={styles.metric}>
+                <Text style={[styles.metricLabel, { color: textColor }]}>
+                  Write Time:
+                </Text>
+                <Text style={[styles.metricValue, { color: textColor }]}>
+                  {writeResults.dataStorage.writeTime}ms
+                </Text>
+              </View>
+            </View>
+
+            <View style={[styles.card, { backgroundColor: cardBg }]}>
+              <Text style={[styles.cardTitle, styles.nitroColor]}>
+                NitroDataStorage
+              </Text>
+              <View style={styles.metric}>
+                <Text style={[styles.metricLabel, { color: textColor }]}>
+                  Write Time:
+                </Text>
+                <Text style={[styles.metricValue, { color: textColor }]}>
+                  {writeResults.nitroDataStorage.writeTime}ms
+                </Text>
+              </View>
+            </View>
+
+            <View style={[styles.card, { backgroundColor: cardBg }]}>
               <Text style={[styles.cardTitle, styles.comparisonColor]}>
                 Comparison
               </Text>
@@ -236,17 +264,44 @@ function AppContent({ isDarkMode }: { isDarkMode: boolean }) {
                   Write Speed:
                 </Text>
               </View>
+              <Text style={[styles.metricValue, { color: textColor }]}>
+                MMKV: {writeResults.mmkv.writeTime}ms
+              </Text>
+              <Text style={[styles.metricValue, { color: textColor }]}>
+                AsyncStorage: {writeResults.asyncStorage.writeTime}ms (
+                {(
+                  writeResults.asyncStorage.writeTime /
+                  writeResults.mmkv.writeTime
+                ).toFixed(2)}
+                x slower)
+              </Text>
               <Text style={[styles.metricValue, styles.betterColor]}>
-                {writeResults.mmkv.writeTime <
-                writeResults.asyncStorage.writeTime
-                  ? `MMKV is ${(
-                      writeResults.asyncStorage.writeTime /
-                      writeResults.mmkv.writeTime
-                    ).toFixed(2)}x faster`
-                  : `AsyncStorage is ${(
+                DataStorage: {writeResults.dataStorage.writeTime}ms (
+                {writeResults.dataStorage.writeTime <
+                writeResults.mmkv.writeTime
+                  ? `${(
                       writeResults.mmkv.writeTime /
-                      writeResults.asyncStorage.writeTime
-                    ).toFixed(2)}x faster`}
+                      writeResults.dataStorage.writeTime
+                    ).toFixed(2)}x faster than MMKV`
+                  : `${(
+                      writeResults.dataStorage.writeTime /
+                      writeResults.mmkv.writeTime
+                    ).toFixed(2)}x slower than MMKV`}
+                )
+              </Text>
+              <Text style={[styles.metricValue, styles.betterColor]}>
+                NitroDataStorage: {writeResults.nitroDataStorage.writeTime}ms (
+                {writeResults.nitroDataStorage.writeTime <
+                writeResults.mmkv.writeTime
+                  ? `${(
+                      writeResults.mmkv.writeTime /
+                      writeResults.nitroDataStorage.writeTime
+                    ).toFixed(2)}x faster than MMKV`
+                  : `${(
+                      writeResults.nitroDataStorage.writeTime /
+                      writeResults.mmkv.writeTime
+                    ).toFixed(2)}x slower than MMKV`}
+                )
               </Text>
             </View>
           </View>
@@ -286,6 +341,34 @@ function AppContent({ isDarkMode }: { isDarkMode: boolean }) {
             </View>
 
             <View style={[styles.card, { backgroundColor: cardBg }]}>
+              <Text style={[styles.cardTitle, styles.dataStorageColor]}>
+                DataStorage
+              </Text>
+              <View style={styles.metric}>
+                <Text style={[styles.metricLabel, { color: textColor }]}>
+                  Read Time:
+                </Text>
+                <Text style={[styles.metricValue, { color: textColor }]}>
+                  {readResults.dataStorage.readTime}ms
+                </Text>
+              </View>
+            </View>
+
+            <View style={[styles.card, { backgroundColor: cardBg }]}>
+              <Text style={[styles.cardTitle, styles.nitroColor]}>
+                NitroDataStorage
+              </Text>
+              <View style={styles.metric}>
+                <Text style={[styles.metricLabel, { color: textColor }]}>
+                  Read Time:
+                </Text>
+                <Text style={[styles.metricValue, { color: textColor }]}>
+                  {readResults.nitroDataStorage.readTime}ms
+                </Text>
+              </View>
+            </View>
+
+            <View style={[styles.card, { backgroundColor: cardBg }]}>
               <Text style={[styles.cardTitle, styles.comparisonColor]}>
                 Comparison
               </Text>
@@ -294,16 +377,42 @@ function AppContent({ isDarkMode }: { isDarkMode: boolean }) {
                   Read Speed:
                 </Text>
               </View>
+              <Text style={[styles.metricValue, { color: textColor }]}>
+                MMKV: {readResults.mmkv.readTime}ms
+              </Text>
+              <Text style={[styles.metricValue, { color: textColor }]}>
+                AsyncStorage: {readResults.asyncStorage.readTime}ms (
+                {(
+                  readResults.asyncStorage.readTime / readResults.mmkv.readTime
+                ).toFixed(2)}
+                x slower)
+              </Text>
               <Text style={[styles.metricValue, styles.betterColor]}>
-                {readResults.mmkv.readTime < readResults.asyncStorage.readTime
-                  ? `MMKV is ${(
-                      readResults.asyncStorage.readTime /
-                      readResults.mmkv.readTime
-                    ).toFixed(2)}x faster`
-                  : `AsyncStorage is ${(
+                DataStorage: {readResults.dataStorage.readTime}ms (
+                {readResults.dataStorage.readTime < readResults.mmkv.readTime
+                  ? `${(
                       readResults.mmkv.readTime /
-                      readResults.asyncStorage.readTime
-                    ).toFixed(2)}x faster`}
+                      readResults.dataStorage.readTime
+                    ).toFixed(2)}x faster than MMKV`
+                  : `${(
+                      readResults.dataStorage.readTime /
+                      readResults.mmkv.readTime
+                    ).toFixed(2)}x slower than MMKV`}
+                )
+              </Text>
+              <Text style={[styles.metricValue, styles.betterColor]}>
+                NitroDataStorage: {readResults.nitroDataStorage.readTime}ms (
+                {readResults.nitroDataStorage.readTime <
+                readResults.mmkv.readTime
+                  ? `${(
+                      readResults.mmkv.readTime /
+                      readResults.nitroDataStorage.readTime
+                    ).toFixed(2)}x faster than MMKV`
+                  : `${(
+                      readResults.nitroDataStorage.readTime /
+                      readResults.mmkv.readTime
+                    ).toFixed(2)}x slower than MMKV`}
+                )
               </Text>
             </View>
           </View>
@@ -419,6 +528,12 @@ const styles = StyleSheet.create({
   },
   asyncColor: {
     color: '#FF9800',
+  },
+  dataStorageColor: {
+    color: '#9C27B0',
+  },
+  nitroColor: {
+    color: '#E91E63',
   },
   comparisonColor: {
     color: '#2196F3',

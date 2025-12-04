@@ -1,0 +1,43 @@
+{
+  "name": "react-native-nitro-data-storage",
+  "version": "0.0.1",
+  "description": "High-performance data storage using Nitro Modules and SwiftData",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "react-native": "./src/index.ts",
+  "source": "./src/index.ts",
+  "files": [
+    "src/",
+    "ios/",
+    "nitrogen/",
+    "NitroDataStorage.podspec"
+  ],
+  "scripts": {
+    "typescript": "tsc --noEmit"
+  },
+  "keywords": [
+    "react-native",
+    "ios",
+    "nitro",
+    "nitro-modules",
+    "storage",
+    "swiftdata",
+    "performance"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/react-native-nitro-data-storage.git"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+    "react-native-nitro-modules": "*"
+  },
+  "devDependencies": {
+    "@types/react": "*",
+    "@types/react-native": "*",
+    "typescript": "^5.0.0"
+  }
+}

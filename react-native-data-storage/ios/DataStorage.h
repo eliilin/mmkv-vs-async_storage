@@ -4,7 +4,24 @@
 
 @protocol NativeDataStorageSpec <RCTBridgeModule, RCTTurboModule>
 
-- (NSNumber *)addNumbers:(double)a b:(double)b;
+- (void)getItem:(NSString *)key
+        resolve:(RCTPromiseResolveBlock)resolve
+         reject:(RCTPromiseRejectBlock)reject;
+
+- (void)setItem:(NSString *)key
+          value:(NSDictionary *)value
+        resolve:(RCTPromiseResolveBlock)resolve
+         reject:(RCTPromiseRejectBlock)reject;
+
+- (void)removeItem:(NSString *)key
+           resolve:(RCTPromiseResolveBlock)resolve
+            reject:(RCTPromiseRejectBlock)reject;
+
+- (void)getAllKeys:(RCTPromiseResolveBlock)resolve
+            reject:(RCTPromiseRejectBlock)reject;
+
+- (void)clear:(RCTPromiseResolveBlock)resolve
+       reject:(RCTPromiseRejectBlock)reject;
 
 @end
 
