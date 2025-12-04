@@ -130,7 +130,7 @@ function AppContent({ isDarkMode }: { isDarkMode: boolean }) {
           Storage Performance Test
         </Text>
         <Text style={[styles.subtitle, { color: textColor }]}>
-          MMKV vs AsyncStorage vs DataStorage
+          MMKV vs AsyncStorage vs CoreData Storage vs Nitro CoreData Storage
         </Text>
 
         {/* Item Count Selector */}
@@ -440,7 +440,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 14,
     textAlign: 'center',
     marginBottom: 30,
     opacity: 0.7,
