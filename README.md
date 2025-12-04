@@ -30,19 +30,48 @@ This is a [**React Native**](https://reactnative.dev) project, bootstrapped usin
   <img src="assets/read-tests-50k.png" alt="Read Test Results - 50k" width="45%" />
 </div>
 
+### 150,000 Items
+
+<div align="center">
+  <img src="assets/write-tests-150k.png" alt="Write Test Results - 150k" width="45%" />
+  <img src="assets/read-tests-150k.png" alt="Read Test Results - 150k" width="45%" />
+</div>
+
+## Performance Data
+
+### Write Performance (ms)
+
+| Items   | AsyncStorage | MMKV   | MMKV (Reusable) | DataStorage | NitroDataStorage |
+| ------- | ------------ | ------ | --------------- | ----------- | ---------------- |
+| 5,000   | 9.51         | 21.28  | **8.92**        | 26.07       | 203.38           |
+| 25,000  | 36.59        | 64.15  | 40.88           | 102.94      | 1033.03          |
+| 50,000  | 73.95        | 131.51 | **72.89**       | 202.52      | 2012.43          |
+| 150,000 | 220.95       | 445.19 | **217.29**      | 603.05      | 6181.56          |
+
+### Read Performance (ms)
+
+| Items   | AsyncStorage | MMKV   | MMKV (Reusable) | DataStorage | NitroDataStorage |
+| ------- | ------------ | ------ | --------------- | ----------- | ---------------- |
+| 5,000   | 7.35         | 13.23  | 9.02            | 24.5        | 172.99           |
+| 25,000  | 24.9         | 41.46  | 29.9            | 88.2        | 835.48           |
+| 50,000  | 51.47        | 68.29  | **46.78**       | 174.82      | 1694.92          |
+| 150,000 | 149.14       | 158.23 | **127.47**      | 530.29      | 5187.49          |
+
+_Bold values indicate the fastest time for that test._
+
 ## About the Storage Solutions
 
 ### MMKV (react-native-mmkv)
 
-A fast, efficient key-value storage library that uses JSON serialization. Stores data as strings and requires parsing on read operations.
+A fast, efficient key-value storage library that uses JSON serialization. Stores data as strings and requires parsing on read operations. Supports a "reusable" buffer mode that significantly improves performance.
 
-**Performance**: Consistently 2nd fastest in testing, though 40-70% slower than AsyncStorage. Still a solid choice for most use cases.
+**Performance**: MMKV with reusable buffer is the fastest option in most tests, outperforming AsyncStorage in write operations (3/4 tests) and read operations at larger data sizes (2/4 tests).
 
 ### AsyncStorage
 
 The standard asynchronous storage solution for React Native. Uses JSON serialization and provides a promise-based API.
 
-**Performance**: Winner in all tests. Native JSON serialization optimizations make it the fastest option for storing large state trees.
+**Performance**: Consistently fast and competitive. Best for read operations at smaller data sizes. Native JSON serialization optimizations provide excellent baseline performance.
 
 ### DataStorage (Turbo Modules)
 
@@ -53,7 +82,7 @@ A custom implementation built using React Native's **Turbo Modules** architectur
 - Uses React Native's new architecture for improved bridge communication
 - Asynchronous operations through promises
 
-**Performance**: 2-4x slower than AsyncStorage. The bridge overhead and object serialization costs outweigh the benefits of direct object storage.
+**Performance**: 2-3x slower than AsyncStorage. The bridge overhead and object serialization costs outweigh the benefits of direct object storage.
 
 ### NitroDataStorage (Nitro Modules)
 
@@ -64,38 +93,45 @@ A custom implementation built using **Nitro Modules**:
 - **Direct object storage** - No JSON serialization needed
 - Leverages the most modern React Native architecture
 
-**Performance**: Currently 8-20x slower than AsyncStorage. The implementation may have performance issues that need optimization. Despite the theoretical advantages of synchronous calls and zero overhead, the current implementation underperforms significantly.
+**Performance**: Currently 20-35x slower than AsyncStorage. The implementation may have performance issues that need optimization. Despite the theoretical advantages of synchronous calls and zero overhead, the current implementation underperforms significantly.
 
 ## Key Findings
 
 Based on the performance tests across different data sizes (5k, 25k, 50k, and 150k items):
 
-1. **AsyncStorage** consistently shows the best performance across all test scenarios:
+1. **MMKV (Reusable Buffer)** is the fastest option for most operations:
 
-   - Fastest write operations at all data scales
-   - Fastest read operations at all data scales
-   - Efficient JSON serialization/deserialization optimized at the native level
-   - Winner in 100% of test cases (8 out of 8 tests)
+   - Fastest write operations in 3 out of 4 tests (5k, 50k, 150k items)
+   - Fastest read operations at larger data sizes (50k, 150k items)
+   - Up to 14% faster than AsyncStorage for writes at scale
+   - Up to 15% faster than AsyncStorage for reads at scale
 
-2. **MMKV** performs well but is consistently 40-70% slower than AsyncStorage:
+2. **AsyncStorage** remains highly competitive:
 
-   - Write operations: 0.49x-0.63x the speed of AsyncStorage
-   - Read operations: 0.64x-0.94x the speed of AsyncStorage
-   - Still a solid choice for key-value storage with good performance
+   - Fastest write at 25k items (36.59ms vs 40.88ms)
+   - Fastest read at smaller sizes (5k, 25k items)
+   - Excellent baseline performance with native JSON optimizations
+   - Reliable choice when MMKV reusable buffer isn't available
 
-3. **DataStorage (Turbo Modules)** despite direct object storage, is 2-4x slower than AsyncStorage:
+3. **MMKV (Standard)** is 40-100% slower than MMKV Reusable:
 
-   - Write operations: 0.34x-0.41x the speed of AsyncStorage
-   - Read operations: 0.26x-0.29x the speed of AsyncStorage
+   - Write operations: 1.6x-2.4x slower than reusable mode
+   - Read operations: 1.2x-1.5x slower than reusable mode
+   - Still faster than DataStorage and NitroDataStorage
+
+4. **DataStorage (Turbo Modules)** is 2-4x slower than AsyncStorage:
+
+   - Write operations: 0.34x-0.37x the speed of AsyncStorage
+   - Read operations: 0.28x-0.30x the speed of AsyncStorage
    - The overhead of Turbo Modules bridge and object serialization outweighs the benefits
 
-4. **NitroDataStorage (Nitro Modules)** shows unexpectedly poor performance, 8-20x slower than AsyncStorage:
+5. **NitroDataStorage (Nitro Modules)** shows unexpectedly poor performance, 20-35x slower than AsyncStorage:
 
-   - Write operations: 0.10x-0.13x the speed of AsyncStorage
-   - Read operations: 0.04x-0.06x the speed of AsyncStorage
+   - Write operations: 0.03x-0.05x the speed of AsyncStorage
+   - Read operations: 0.03x-0.04x the speed of AsyncStorage
    - Despite synchronous operations, the current implementation has significant performance issues
 
-**Conclusion**: For storing large state trees (as done in redux-persist), AsyncStorage's native JSON serialization optimizations make it the clear winner. Modern architectures (Turbo Modules and Nitro Modules) don't automatically guarantee better performance—implementation details and native optimizations matter more than the architecture itself.
+**Conclusion**: For storing large state trees (as done in redux-persist), **MMKV with reusable buffer** is the clear winner when available, with AsyncStorage as an excellent alternative. Modern architectures (Turbo Modules and Nitro Modules) don't automatically guarantee better performance—implementation details and native optimizations matter more than the architecture itself.
 
 ## Getting Started
 

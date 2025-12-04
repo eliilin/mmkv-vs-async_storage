@@ -168,44 +168,68 @@ export const generateTestData = (count: number): Record<string, any> => {
 // Similar to redux-persist which uses 'persist:root' or similar key
 const ROOT_KEY = 'root';
 
+// Reusable MMKV instance (created once, reused for all operations)
+let reusableMmkvInstance: ReturnType<typeof createMMKV> | null = null;
+
+const getReusableMmkvInstance = () => {
+  if (!reusableMmkvInstance) {
+    reusableMmkvInstance = createMMKV();
+  }
+  return reusableMmkvInstance;
+};
+
 // MMKV Performance Tests
 // This approach mimics how redux-persist works:
 // 1. Serializes entire state object to JSON string
 // 2. Stores under single key
 // 3. No multiSet/multiGet - just one setItem/getItem operation
 export const testMmkvWrite = async (data: Record<string, string | number>) => {
-  // Initialize MMKV instance
+  // Test with new instance each time
   const mmkvStorage = createMMKV();
   const startTime = performance.now();
-
-  // Write entire object as JSON string to a single key
-  // This is exactly how redux-persist stores: JSON.stringify(state)
   mmkvStorage.set(ROOT_KEY, JSON.stringify(data));
-
   const totalTime = Math.round((performance.now() - startTime) * 100) / 100;
+
+  // Test with reusable instance
+  const reusableInstance = getReusableMmkvInstance();
+  const reusableStartTime = performance.now();
+  reusableInstance.set(ROOT_KEY, JSON.stringify(data));
+  const reusableTime =
+    Math.round((performance.now() - reusableStartTime) * 100) / 100;
 
   return {
     totalTime,
+    reusableTime,
   };
 };
 
 export const testMmkvRead = async () => {
+  // Test with new instance each time
   const startTime = performance.now();
-
   const mmkvStorage = createMMKV();
   const jsonStr = mmkvStorage.getString(ROOT_KEY);
 
   let itemsRead = 0;
   if (jsonStr) {
-    // Parse JSON back to object - same as redux-persist does
     const data = JSON.parse(jsonStr);
     itemsRead = Object.keys(data).length;
   }
-
   const readTime = Math.round((performance.now() - startTime) * 100) / 100;
+
+  // Test with reusable instance
+  const reusableInstance = getReusableMmkvInstance();
+  const reusableStartTime = performance.now();
+  const reusableJsonStr = reusableInstance.getString(ROOT_KEY);
+
+  if (reusableJsonStr) {
+    JSON.parse(reusableJsonStr);
+  }
+  const reusableReadTime =
+    Math.round((performance.now() - reusableStartTime) * 100) / 100;
 
   return {
     readTime,
+    reusableReadTime,
     itemsRead,
   };
 };
@@ -408,6 +432,7 @@ export const checkDataExists = (): {
 export interface WriteTestResults {
   mmkv: {
     writeTime: number;
+    reusableWriteTime: number;
   };
   asyncStorage: {
     writeTime: number;
@@ -425,6 +450,7 @@ export interface WriteTestResults {
 export interface ReadTestResults {
   mmkv: {
     readTime: number;
+    reusableReadTime: number;
     itemsRead: number;
   };
   asyncStorage: {
@@ -472,6 +498,7 @@ export const runWriteTests = async (
   return {
     mmkv: {
       writeTime: mmkvWriteResult.totalTime,
+      reusableWriteTime: mmkvWriteResult.reusableTime,
     },
     asyncStorage: {
       writeTime: asyncStorageWriteResult.totalTime,
@@ -507,6 +534,7 @@ export const runReadTests = async (): Promise<ReadTestResults> => {
   return {
     mmkv: {
       readTime: mmkvReadResult.readTime,
+      reusableReadTime: mmkvReadResult.reusableReadTime,
       itemsRead: mmkvReadResult.itemsRead,
     },
     asyncStorage: {
